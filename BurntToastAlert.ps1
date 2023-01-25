@@ -16,7 +16,7 @@ If(checkforNuget){
     write-host "Nuget is installing...."
     Install-PackageProvider -Name NuGet -RequiredVersion 2.8.5.208 -Force
 }
-
+# Now, check to see if a reboot is pending
 function Test-RebootRequired 
 {
     $result = @{
@@ -63,7 +63,7 @@ function Test-RebootRequired
 }
 Test-RebootRequired
 
-
+# Perform BurntToast actions if Reboot is required
 if(Test-RebootRequired)
 {
 
@@ -82,7 +82,7 @@ if (!$ProtocolHandler) {
     set-itemproperty 'HKCR:\ToastReboot\Shell\Open\command' -name '(DEFAULT)' -value 'C:\Windows\System32\shutdown.exe -r -t 00' -force
 }
 
-#Install-PackageProvider -Name NuGet -RequiredVersion 2.8.5.208 -Force
+
 Install-Module -Name BurntToast
 Install-module -Name RunAsUser
 invoke-ascurrentuser -scriptblock {
