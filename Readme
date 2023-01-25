@@ -1,0 +1,4 @@
+The burnt toast notification is a combination of the Burnt Toast script from Cyberdrain, and another function used fro another source (cannot recall)
+it checks to see if a reboot is needed then alerts the Client with a branded toast notification
+
+the notification gives the option to snooze, or reboot
