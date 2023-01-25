@@ -1,3 +1,22 @@
+Import-Module $env:SyncroModule
+# Added check for Nuget
+Function CheckforNuget{
+    $results = get-packageprovider
+    foreach($i in $results){
+        
+        if($i.name -eq "NuGet"){
+            return $true
+        }
+    }
+}
+If(checkforNuget){
+    write-host "Nuget is installed, proceeding "
+} else {
+    # This installs the required Nuget Package Manager
+    write-host "Nuget is installing...."
+    Install-PackageProvider -Name NuGet -RequiredVersion 2.8.5.208 -Force
+}
+
 function Test-RebootRequired 
 {
     $result = @{
@@ -63,7 +82,7 @@ if (!$ProtocolHandler) {
     set-itemproperty 'HKCR:\ToastReboot\Shell\Open\command' -name '(DEFAULT)' -value 'C:\Windows\System32\shutdown.exe -r -t 00' -force
 }
 
-Install-PackageProvider -Name NuGet -RequiredVersion 2.8.5.208 -Force
+#Install-PackageProvider -Name NuGet -RequiredVersion 2.8.5.208 -Force
 Install-Module -Name BurntToast
 Install-module -Name RunAsUser
 invoke-ascurrentuser -scriptblock {
@@ -87,7 +106,7 @@ invoke-ascurrentuser -scriptblock {
     Submit-BTNotification -Content $Content
 }
 
-Log-Activity -Message "PC Reboot Alert" -EventName "Notify User"
+Log-Activity -Message "User was notified of pending updates and to reboot" -EventName "Notify User"
 
 
 
